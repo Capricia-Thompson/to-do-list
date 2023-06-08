@@ -1,23 +1,27 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState } from 'react'
+import AddForm from './components/addform';
+import DispList from './components/displist';
 
 function App() {
+  const [list, setList] = useState([]);
+  const addTask = (obj) => {
+    setList((prev) => { return [...prev, obj] })
+  };
+  const updateList = (task, index) => {
+    let newList = [...list]
+    newList.splice(index, 1, task)
+    setList(newList)
+  }
+  const removeTask = (index) => {
+    let newList = [...list]
+    newList.splice(index, 1)
+    setList(newList)
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <AddForm addTask={addTask} list={list} />
+      <DispList list={list} updateList={updateList} removeTask={removeTask} />
     </div>
   );
 }
